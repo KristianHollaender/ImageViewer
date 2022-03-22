@@ -68,8 +68,8 @@ public class ImageViewerWindowController
     @FXML
     private void handleBtnStartSlideshow() throws InterruptedException {
         while (!images.isEmpty()){
-            slideShow.start();
             handleBtnNextAction();
+            slideShow.start();
             Thread.sleep(2000);
         }
     }
