@@ -17,7 +17,7 @@ public class ImageViewerWindowController
     private final List<Image> images = new ArrayList<>();
     private int currentImageIndex = 0;
 
-    Thread slideShow = new Thread();
+    private Thread thread;
 
     @FXML
     Parent root;
@@ -67,16 +67,25 @@ public class ImageViewerWindowController
 
     @FXML
     private void handleBtnStartSlideshow() throws InterruptedException {
-        while (!images.isEmpty()){
-            slideShow.start();
-            handleBtnNextAction();
-            Thread.sleep(2000);
-        }
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!images.isEmpty()) {
+                    handleBtnNextAction();
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
     }
 
     @FXML
-    private void handleBtnStopSlideshow() throws InterruptedException {
-
+    private void handleBtnStopSlideshow() {
+        thread.stop();
     }
 
     private void displayImage()
