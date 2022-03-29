@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="1091.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.ImageViewerWindowController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="1091.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.ImageViewerWindowController">
     <top>
         <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="1091.0" BorderPane.alignment="CENTER">
             <children>
@@ -28,13 +28,6 @@
                   <Button id="btnNext" fx:id="btnStartSlideShow" mnemonicParsing="false" onAction="#handleBtnStartSlideshow" text="Start Slideshow" />
                   <Button id="btnNext" fx:id="btnStopSlideShow" mnemonicParsing="false" onAction="#handleBtnStopSlideshow" text="Stop Slideshow" />
                   <Slider fx:id="slider" max="5.0" min="1.0" onDragDetected="#handleSlider" showTickMarks="true" value="5.0" />
-
-                  <Button id="btnNext" fx:id="brnStart" mnemonicParsing="false" onAction="#handleBtnStartSlideshow" text="Start Slideshow" />
-                  <Button id="btnNext" fx:id="btnStop" mnemonicParsing="false" onAction="#handleBtnStopSlideshow" text="Stop Slideshow" />
-                  <Slider fx:id="btnSlider" blockIncrement="5.0" max="5.0" min="1.0" onDragDetected="#handleSlider" showTickLabels="true" snapToTicks="true" value="1.0">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets></Slider>
                     </buttons>
                 </ButtonBar>
             </children>
