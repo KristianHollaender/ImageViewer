@@ -6,8 +6,6 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -15,33 +13,22 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class ImageViewerWindowController {
-
+public class ImageViewerWindowController
+{
     private final List<Image> images = new ArrayList<>();
     private int currentImageIndex = 0;
+
     private Thread thread;
 
     @FXML
-    private Button btnLoad;
-    @FXML
-    private Button btnPrevious;
-    @FXML
-    private Button btnNext;
-    @FXML
-    private Button brnStartSlideShow;
-    @FXML
-    private Button btnStartSlideShow;
-    @FXML
-    private Button btnStopSlideShow;
-    @FXML
-    private Slider slider;
-    @FXML
     Parent root;
+
     @FXML
     private ImageView imageView;
 
     @FXML
-    private void handleBtnLoadAction() {
+    private void handleBtnLoadAction()
+    {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select image files");
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Images",
@@ -59,7 +46,8 @@ public class ImageViewerWindowController {
     }
 
     @FXML
-    private void handleBtnPreviousAction() {
+    private void handleBtnPreviousAction()
+    {
         if (!images.isEmpty())
         {
             currentImageIndex =
@@ -69,7 +57,8 @@ public class ImageViewerWindowController {
     }
 
     @FXML
-    private void handleBtnNextAction() {
+    private void handleBtnNextAction()
+    {
         if (!images.isEmpty())
         {
             currentImageIndex = (currentImageIndex + 1) % images.size();
@@ -100,7 +89,8 @@ public class ImageViewerWindowController {
         thread.stop();
     }
 
-    private void displayImage() {
+    private void displayImage()
+    {
         if (!images.isEmpty())
         {
             imageView.setImage(images.get(currentImageIndex));

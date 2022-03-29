@@ -25,9 +25,9 @@
                             </opaqueInsets>
                         </Button>
                         <Button id="btnNext" fx:id="btnNext" mnemonicParsing="false" onAction="#handleBtnNextAction" text="Next" />
-                  <Button id="btnNext" fx:id="btnStartSlideShow" mnemonicParsing="false" onAction="#handleBtnStartSlideshow" text="Start Slideshow" />
-                  <Button id="btnNext" fx:id="btnStopSlideShow" mnemonicParsing="false" onAction="#handleBtnStopSlideshow" text="Stop Slideshow" />
-                  <Slider fx:id="slider" max="5.0" min="1.0" onDragDetected="#handleSlider" showTickMarks="true" value="5.0" />
+                  <Button id="btnNext" fx:id="brnStart" mnemonicParsing="false" onAction="#handleBtnStartSlideshow" text="Start Slideshow" />
+                  <Button id="btnNext" fx:id="btnStop" mnemonicParsing="false" onAction="#handleBtnStopSlideshow" text="Stop Slideshow" />
+                  <Slider fx:id="btnSlider" max="5.0" min="1.0" onDragDetected="#handleSlider" showTickMarks="true" value="5.0" />
                     </buttons>
                 </ButtonBar>
             </children>
