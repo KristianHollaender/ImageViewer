@@ -1,22 +1,19 @@
 package dk.easv;
 
-import java.awt.*;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import javafx.animation.Animation;
-import javafx.animation.SequentialTransition;
-import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import java.util.concurrent.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,30 +21,34 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-import javafx.util.Duration;
-
-public class ImageViewerWindowController implements Initializable
-{
-    private final List<Image> images = new ArrayList<>();
-    private int currentImageIndex = 0;
-
-    private Thread thread;
+public class ImageViewerWindowController implements Initializable {
+    private final List<ImageWithName> images = new ArrayList<>();
+    private List<String> imageNames;
+    private ExecutorService es = Executors.newFixedThreadPool(1);
+    private Slideshow ss;
 
     @FXML
+    private Button btnLoad;
+    @FXML
+    private Button btnPrevious;
+    @FXML
+    private Button btnNext;
+    @FXML
+    private Button btnStartSlideshow;
+    @FXML
+    private Button btnStopSlideshow;
+    @FXML
+    private Slider secondsSlider;
+    @FXML
+    private Label lblImageName;
+    @FXML
     Parent root;
-
     @FXML
     private ImageView imageView;
 
-    @FXML
-    private Slider btnSlider;
-
-    private double time = 1000;
-
 
     @FXML
-    private void handleBtnLoadAction()
-    {
+    private void handleBtnLoadAction() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select image files");
         fileChooser.getExtensionFilters().add(new ExtensionFilter("Images",
@@ -58,72 +59,72 @@ public class ImageViewerWindowController implements Initializable
         {
             files.forEach((File f) ->
             {
-                images.add(new Image(f.toURI().toString()));
+                Image image = new Image(f.toURI().toString());
+                images.add(new ImageWithName(image, f));
+                image.getPixelReader();
             });
-            displayImage();
+            displayImage(images.get(0).getImage());
+            lblImageName.setText(images.get(0).getImageName());
         }
     }
 
     @FXML
-    private void handleBtnPreviousAction()
-    {
+    private void handleBtnPreviousAction() {
+        /*
         if (!images.isEmpty())
         {
             currentImageIndex =
                     (currentImageIndex - 1 + images.size()) % images.size();
             displayImage();
         }
+         */
     }
 
     @FXML
-    private void handleBtnNextAction()
-    {
+    private void handleBtnNextAction() {
+        /*
         if (!images.isEmpty())
         {
             currentImageIndex = (currentImageIndex + 1) % images.size();
             displayImage();
         }
+         */
     }
 
-    @FXML
-    private void handleBtnStartSlideshow() throws InterruptedException {
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!images.isEmpty()) {
-                    handleBtnNextAction();
-                    try {
-                        Thread.sleep((long) time);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+    private void displayImage(Image image) {
+        imageView.setImage(image);
+    }
+
+    public void handleBtnStartSlideshow(ActionEvent actionEvent) {
+        int delay = (int)secondsSlider.getValue();
+        ss = new Slideshow(images,delay);
+        ss.valueProperty().addListener((obs, o, n)->{
+            displayImage(n.getImage());
+            lblImageName.setText(images.get(ss.getCurrentImageIndex()).getImageName());
         });
-        thread.start();
+        ss.setOnCancelled(e -> {
+            btnStartSlideshow.setDisable(false);
+            btnStopSlideshow.setDisable(true);
+            secondsSlider.setDisable(false);
+        });
+        ss.setOnRunning(e -> {
+            btnStartSlideshow.setDisable(true);
+            btnStopSlideshow.setDisable(false);
+            secondsSlider.setDisable(true);
+        });
+        es.submit(ss);
     }
 
-    @FXML
-    private void handleBtnStopSlideshow() {
-        thread.stop();
+    public void handleBtnStopSlideshow(ActionEvent actionEvent) {
+        ss.cancel();
     }
-
-    private void displayImage()
-    {
-        if (!images.isEmpty())
-        {
-            imageView.setImage(images.get(currentImageIndex));
-        }
-    }
-
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        btnSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                time = btnSlider.getValue()*1000;
-            }
-        });
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnStartSlideshow.setDisable(false);
+        btnStopSlideshow.setDisable(true);
+    }
+
+    public void handleSlider(MouseEvent mouseEvent) {
     }
 }

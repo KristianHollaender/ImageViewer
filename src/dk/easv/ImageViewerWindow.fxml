@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,7 +13,7 @@
     <top>
         <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="1091.0" BorderPane.alignment="CENTER">
             <children>
-                <ButtonBar prefHeight="57.0" prefWidth="627.0">
+                <ButtonBar prefHeight="58.0" prefWidth="984.0">
                     <buttons>
                         <Button id="btnLoad" fx:id="btnLoad" mnemonicParsing="false" onAction="#handleBtnLoadAction" prefHeight="27.0" prefWidth="141.0" text="Load images...">
                             <opaqueInsets>
@@ -25,9 +26,10 @@
                             </opaqueInsets>
                         </Button>
                         <Button id="btnNext" fx:id="btnNext" mnemonicParsing="false" onAction="#handleBtnNextAction" text="Next" />
-                  <Button id="btnNext" fx:id="brnStart" mnemonicParsing="false" onAction="#handleBtnStartSlideshow" text="Start Slideshow" />
-                  <Button id="btnNext" fx:id="btnStop" mnemonicParsing="false" onAction="#handleBtnStopSlideshow" text="Stop Slideshow" />
-                  <Slider fx:id="btnSlider" max="5.0" min="1.0" onDragDetected="#handleSlider" showTickMarks="true" value="5.0" />
+                  <Button id="btnNext" fx:id="btnStartSlideshow" mnemonicParsing="false" onAction="#handleBtnStartSlideshow" text="Start Slideshow" />
+                  <Button id="btnNext" fx:id="btnStopSlideshow" mnemonicParsing="false" onAction="#handleBtnStopSlideshow" text="Stop Slideshow" />
+                  <Slider fx:id="secondsSlider" max="5.0" min="1.0" onDragDetected="#handleSlider" showTickMarks="true" value="5.0" />
+                  <Label fx:id="lblImageName" text="Image file name" />
                     </buttons>
                 </ButtonBar>
             </children>
