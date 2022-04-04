@@ -1,11 +1,10 @@
 package dk.easv;
+
 import javafx.scene.image.Image;
-
 import java.io.File;
-import java.util.concurrent.ExecutionException;
-
 
 public class ImageWithName {
+
     private Image image;
     private String imageName;
 

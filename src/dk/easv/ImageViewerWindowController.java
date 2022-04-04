@@ -6,33 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class ImageViewerWindowController implements Initializable {
-    private final List<ImageWithName> images = new ArrayList<>();
-    private List<String> imageNames;
-    private ExecutorService es = Executors.newFixedThreadPool(1);
-    private Slideshow ss;
 
-    @FXML
-    private Button btnLoad;
-    @FXML
-    private Button btnPrevious;
-    @FXML
-    private Button btnNext;
     @FXML
     private Button btnStartSlideshow;
     @FXML
@@ -42,10 +28,18 @@ public class ImageViewerWindowController implements Initializable {
     @FXML
     private Label lblImageName;
     @FXML
-    Parent root;
-    @FXML
     private ImageView imageView;
 
+    private final List<ImageWithName> images = new ArrayList<>();
+    private ExecutorService executorService = Executors.newCachedThreadPool();
+
+    private Slideshow slideshow;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnStartSlideshow.setDisable(false);
+        btnStopSlideshow.setDisable(true);
+    }
 
     @FXML
     private void handleBtnLoadAction() {
@@ -57,74 +51,47 @@ public class ImageViewerWindowController implements Initializable {
 
         if (!files.isEmpty())
         {
-            files.forEach((File f) ->
+            files.forEach((File file) ->
             {
-                Image image = new Image(f.toURI().toString());
-                images.add(new ImageWithName(image, f));
-                image.getPixelReader();
+                Image image = new Image(file.toURI().toString());
+                images.add(new ImageWithName(image, file));
             });
             displayImage(images.get(0).getImage());
             lblImageName.setText(images.get(0).getImageName());
         }
     }
 
-    @FXML
-    private void handleBtnPreviousAction() {
-        /*
-        if (!images.isEmpty())
-        {
-            currentImageIndex =
-                    (currentImageIndex - 1 + images.size()) % images.size();
-            displayImage();
-        }
-         */
-    }
-
-    @FXML
-    private void handleBtnNextAction() {
-        /*
-        if (!images.isEmpty())
-        {
-            currentImageIndex = (currentImageIndex + 1) % images.size();
-            displayImage();
-        }
-         */
-    }
-
     private void displayImage(Image image) {
         imageView.setImage(image);
     }
 
-    public void handleBtnStartSlideshow(ActionEvent actionEvent) {
-        int delay = (int)secondsSlider.getValue();
-        ss = new Slideshow(images,delay);
-        ss.valueProperty().addListener((obs, o, n)->{
-            displayImage(n.getImage());
-            lblImageName.setText(images.get(ss.getCurrentImageIndex()).getImageName());
+    @FXML
+    private void handleBtnStartSlideshow() {
+        int delay = (int) secondsSlider.getValue();
+
+        slideshow = new Slideshow(images,delay);
+        slideshow.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            displayImage(newValue.getImage());
+            lblImageName.setText(images.get(slideshow.getCurrentImageIndex()).getImageName());
         });
-        ss.setOnCancelled(e -> {
+
+        slideshow.setOnCancelled(e -> {
             btnStartSlideshow.setDisable(false);
             btnStopSlideshow.setDisable(true);
             secondsSlider.setDisable(false);
         });
-        ss.setOnRunning(e -> {
+
+        slideshow.setOnRunning(e -> {
             btnStartSlideshow.setDisable(true);
             btnStopSlideshow.setDisable(false);
             secondsSlider.setDisable(true);
         });
-        es.submit(ss);
+
+        executorService.submit(slideshow);
     }
 
-    public void handleBtnStopSlideshow(ActionEvent actionEvent) {
-        ss.cancel();
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        btnStartSlideshow.setDisable(false);
-        btnStopSlideshow.setDisable(true);
-    }
-
-    public void handleSlider(MouseEvent mouseEvent) {
+    @FXML
+    private void handleBtnStopSlideshow() {
+        slideshow.cancel();
     }
 }

@@ -1,7 +1,6 @@
 package dk.easv;
 
 import javafx.concurrent.Task;
-import javafx.scene.image.Image;
 import java.util.List;
 
 public class Slideshow extends Task<ImageWithName> {
@@ -17,7 +16,7 @@ public class Slideshow extends Task<ImageWithName> {
 
     @Override
     protected ImageWithName call() throws Exception {
-        while (true){
+        while (true) {
             if (!images.isEmpty()) {
                 currentImageIndex = (currentImageIndex + 1) % images.size();
             }
