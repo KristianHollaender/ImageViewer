@@ -22,7 +22,7 @@ public class Slideshow extends Task<ImageWithName> {
             }
             ImageWithName image = images.get(currentImageIndex);
             this.updateValue(image);
-            Thread.sleep(delay * 1000);
+            Thread.sleep(delay * 20000);
         }
     }
 

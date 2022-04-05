@@ -37,7 +37,8 @@ public class ImageViewerWindowController implements Initializable {
     private final List<ImageWithName> images = new ArrayList<>();
     private ExecutorService executorService = Executors.newCachedThreadPool();
 
-    private Slideshow slideshow;
+    private Slideshow slideshow1;
+    private Slideshow slideshow2;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -65,6 +66,26 @@ public class ImageViewerWindowController implements Initializable {
         }
     }
 
+    @FXML
+    public void handleBtnLoadAction2() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select image files");
+        fileChooser.getExtensionFilters().add(new ExtensionFilter("Images",
+                "*.png", "*.jpg", "*.gif", "*.tif", "*.bmp"));
+        List<File> files = fileChooser.showOpenMultipleDialog(new Stage());
+
+        if (!files.isEmpty())
+        {
+            files.forEach((File file) ->
+            {
+                Image image = new Image(file.toURI().toString());
+                images.add(new ImageWithName(image, file));
+            });
+            displayImage(images.get(0).getImage());
+            lblImageName.setText(images.get(0).getImageName());
+        }
+    }
+
     private void displayImage(Image image) {
         imageView.setImage(image);
     }
@@ -73,49 +94,50 @@ public class ImageViewerWindowController implements Initializable {
     private void handleBtnStartSlideshow() {
         int delay = (int) secondsSlider.getValue();
 
-        slideshow = new Slideshow(images,delay);
-        slideshow.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+        slideshow1 = new Slideshow(images,delay);
+        slideshow1.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             displayImage(newValue.getImage());
-            lblImageName.setText(images.get(slideshow.getCurrentImageIndex()).getImageName());
+            lblImageName.setText(images.get(slideshow1.getCurrentImageIndex()).getImageName());
         });
 
-        slideshow.setOnCancelled(e -> {
+        slideshow1.setOnCancelled(e -> {
             btnStartSlideshow.setDisable(false);
             btnStopSlideshow.setDisable(true);
             secondsSlider.setDisable(false);
         });
 
-        slideshow.setOnRunning(e -> {
+        slideshow1.setOnRunning(e -> {
             btnStartSlideshow.setDisable(true);
             btnStopSlideshow.setDisable(false);
             secondsSlider.setDisable(true);
         });
 
-        executorService.submit(slideshow);
+        executorService.submit(slideshow1);
     }
+
 
     public void handleBtnStartSlideshow2() {
         int delay = (int) secondsSlider.getValue();
 
-        slideshow = new Slideshow(images,delay);
-        slideshow.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+        slideshow2 = new Slideshow(images,delay);
+        slideshow2.valueProperty().addListener((observableValue, oldValue, newValue) -> {
             displayImage(newValue.getImage());
-            lblImageName.setText(images.get(slideshow.getCurrentImageIndex()).getImageName());
+            lblImageName.setText(images.get(slideshow2.getCurrentImageIndex()).getImageName());
         });
 
-        slideshow.setOnCancelled(e -> {
-            btnStartSlideshow.setDisable(false);
+        slideshow2.setOnCancelled(e -> {
+            btnStartSlideshow2.setDisable(false);
             btnStopSlideshow.setDisable(true);
             secondsSlider.setDisable(false);
         });
 
-        slideshow.setOnRunning(e -> {
-            btnStartSlideshow.setDisable(true);
+        slideshow2.setOnRunning(e -> {
+            btnStartSlideshow2.setDisable(true);
             btnStopSlideshow.setDisable(false);
             secondsSlider.setDisable(true);
         });
 
-        executorService.submit(slideshow);
+        executorService.submit(slideshow2);
     }
 
     public void handleBtnStartBoth() {
@@ -125,7 +147,8 @@ public class ImageViewerWindowController implements Initializable {
 
     @FXML
     private void handleBtnStopSlideshow() {
-        slideshow.cancel();
+        slideshow1.cancel();
+        slideshow2.cancel();
     }
 
 }
