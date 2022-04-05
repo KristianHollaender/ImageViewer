@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.*;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -21,6 +23,8 @@ public class ImageViewerWindowController implements Initializable {
 
     @FXML
     private Button btnStartSlideshow;
+    @FXML
+    private Button btnStartSlideshow2;
     @FXML
     private Button btnStopSlideshow;
     @FXML
@@ -93,5 +97,29 @@ public class ImageViewerWindowController implements Initializable {
     @FXML
     private void handleBtnStopSlideshow() {
         slideshow.cancel();
+    }
+
+    public void handleBtnStartSlideshow2(ActionEvent actionEvent) {
+        int delay = (int) secondsSlider.getValue();
+
+        slideshow = new Slideshow(images,delay);
+        slideshow.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            displayImage(newValue.getImage());
+            lblImageName.setText(images.get(slideshow.getCurrentImageIndex()).getImageName());
+        });
+
+        slideshow.setOnCancelled(e -> {
+            btnStartSlideshow.setDisable(false);
+            btnStopSlideshow.setDisable(true);
+            secondsSlider.setDisable(false);
+        });
+
+        slideshow.setOnRunning(e -> {
+            btnStartSlideshow.setDisable(true);
+            btnStopSlideshow.setDisable(false);
+            secondsSlider.setDisable(true);
+        });
+
+        executorService.submit(slideshow);
     }
 }
