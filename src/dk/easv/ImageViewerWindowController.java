@@ -94,12 +94,7 @@ public class ImageViewerWindowController implements Initializable {
         executorService.submit(slideshow);
     }
 
-    @FXML
-    private void handleBtnStopSlideshow() {
-        slideshow.cancel();
-    }
-
-    public void handleBtnStartSlideshow2(ActionEvent actionEvent) {
+    public void handleBtnStartSlideshow2() {
         int delay = (int) secondsSlider.getValue();
 
         slideshow = new Slideshow(images,delay);
@@ -122,4 +117,15 @@ public class ImageViewerWindowController implements Initializable {
 
         executorService.submit(slideshow);
     }
+
+    public void handleBtnStartBoth() {
+        handleBtnStartSlideshow();
+        handleBtnStartSlideshow2();
+    }
+
+    @FXML
+    private void handleBtnStopSlideshow() {
+        slideshow.cancel();
+    }
+
 }

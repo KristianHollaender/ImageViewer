@@ -28,6 +28,7 @@
                         <Button id="btnNext" mnemonicParsing="false" text="Next" />
                   <Button id="btnNext" fx:id="btnStartSlideshow" mnemonicParsing="false" onAction="#handleBtnStartSlideshow" text="Start Slideshow" />
                   <Button fx:id="btnStartSlideshow2" mnemonicParsing="false" onAction="#handleBtnStartSlideshow2" text="Start Slideshow2" />
+                  <Button fx:id="btnStartboth" mnemonicParsing="false" onAction="#handleBtnStartBoth" text="Start both shows" />
                   <Button id="btnNext" fx:id="btnStopSlideshow" mnemonicParsing="false" onAction="#handleBtnStopSlideshow" text="Stop Slideshow" />
                   <Slider fx:id="secondsSlider" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                   <Label fx:id="lblImageName" text="Image file name" />
