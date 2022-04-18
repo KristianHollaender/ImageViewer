@@ -14,6 +14,11 @@ public class Slideshow extends Task<ImageWithName> {
         this.delay = delay;
     }
 
+    /**
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     protected ImageWithName call() throws Exception {
         while (true) {
@@ -22,7 +27,7 @@ public class Slideshow extends Task<ImageWithName> {
             }
             ImageWithName image = images.get(currentImageIndex);
             this.updateValue(image);
-            Thread.sleep(delay * 20000);
+            Thread.sleep(delay * 1000);
         }
     }
 

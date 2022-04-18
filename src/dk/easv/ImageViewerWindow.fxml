@@ -9,27 +9,18 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="1091.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.ImageViewerWindowController">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="703.0" prefWidth="1091.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.ImageViewerWindowController">
     <top>
         <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="1091.0" BorderPane.alignment="CENTER">
             <children>
-                <ButtonBar prefHeight="58.0" prefWidth="984.0">
+                <ButtonBar prefHeight="57.0" prefWidth="775.0">
                     <buttons>
                         <Button id="btnLoad" fx:id="btnLoad" mnemonicParsing="false" onAction="#handleBtnLoadAction" prefHeight="27.0" prefWidth="141.0" text="Load images...">
                             <opaqueInsets>
                                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                             </opaqueInsets>
                         </Button>
-                  <Button fx:id="btnLoad2" mnemonicParsing="false" onAction="#handleBtnLoadAction2" text="Load image2" />
-                        <Button id="btnPrevious" mnemonicParsing="false" text="Previous">
-                            <opaqueInsets>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                            </opaqueInsets>
-                        </Button>
-                        <Button id="btnNext" mnemonicParsing="false" text="Next" />
                   <Button id="btnNext" fx:id="btnStartSlideshow" mnemonicParsing="false" onAction="#handleBtnStartSlideshow" text="Start Slideshow" />
-                  <Button fx:id="btnStartSlideshow2" mnemonicParsing="false" onAction="#handleBtnStartSlideshow2" text="Start Slideshow2" />
-                  <Button fx:id="btnStartboth" mnemonicParsing="false" onAction="#handleBtnStartBoth" text="Start both shows" />
                   <Button id="btnNext" fx:id="btnStopSlideshow" mnemonicParsing="false" onAction="#handleBtnStopSlideshow" text="Stop Slideshow" />
                   <Slider fx:id="secondsSlider" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
                   <Label fx:id="lblImageName" text="Image file name" />
