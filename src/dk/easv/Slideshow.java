@@ -14,11 +14,6 @@ public class Slideshow extends Task<ImageWithName> {
         this.delay = delay;
     }
 
-    /**
-     *
-     * @return
-     * @throws Exception
-     */
     @Override
     protected ImageWithName call() throws Exception {
         while (true) {

@@ -35,20 +35,12 @@ public class ImageViewerWindowController implements Initializable {
 
     private Slideshow slideshow;
 
-    /**
-     *
-     * @param url
-     * @param resourceBundle
-     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         btnStartSlideshow.setDisable(false);
         btnStopSlideshow.setDisable(true);
     }
 
-    /**
-     *
-     */
     @FXML
     private void handleBtnLoadAction() {
         FileChooser fileChooser = new FileChooser();
@@ -69,17 +61,10 @@ public class ImageViewerWindowController implements Initializable {
         }
     }
 
-    /**
-     *
-     * @param image
-     */
     private void displayImage(Image image) {
         imageView.setImage(image);
     }
 
-    /**
-     *
-     */
     @FXML
     private void handleBtnStartSlideshow() {
         int delay = (int) secondsSlider.getValue();
@@ -104,10 +89,7 @@ public class ImageViewerWindowController implements Initializable {
 
         executorService.submit(slideshow);
     }
-
-    /**
-     *
-     */
+    
     @FXML
     private void handleBtnStopSlideshow() {
         slideshow.cancel();
